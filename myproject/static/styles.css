@@ -1,0 +1,71 @@
+.mynav,
+.signupBtn,
+.loginBtn,
+button {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  color: white;
+}
+body{
+  min-height: 100vh;
+}
+.mynav ul li a {
+  color: white;
+}
+#navL {
+  text-decoration: none;
+  margin-left: 10px;
+}
+button {
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  
+}
+#chatInput div {
+  display: flex;
+  gap: 10px;
+  
+}
+#chatInput {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+.ai{
+  width:100%;
+  height:auto;
+  padding: 10px;
+  background-color: aliceblue;
+  margin-top: 10px;
+}
+.human{
+  width:100%;
+  height:auto;
+  padding: 10px;
+  background-color:rgb(215, 246, 215);
+  margin-top: 10px;
+}
+.overall{
+  
+  margin-bottom: 10px;
+}
+.who{
+  margin: 5px 0px 5px 0px;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

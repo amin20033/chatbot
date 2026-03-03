@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block title %}Home{% endblock title %} {% block main %} {% if user.is_authenticated %}
+<div class="container">
+  <div class="overall">
+    <div class="ai">
+      <div class="who">
+        <big><b>Nova</b></big>
+      </div>
+      <div class="response">
+        Hey {{user.username}} !! I am Nova You can ask me anything...
+      </div>
+    </div>
+    {% for chat in chats %}
+    <div class="human">
+      <div class="who">
+        <big><b>You</b></big>
+      </div>
+      <div class="response">
+        {{chat.message}}
+      </div>
+    </div>
+    <div class="ai">
+      <div class="who">
+        <big><b>Nova</b></big>
+      </div>
+      <div class="response">
+        {{chat.response}}
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  
+  <form id="chatInput">
+    {% csrf_token %}
+    <div>
+      <input
+        type="text"
+        placeholder="Ask me anything..."
+        name="prompt"
+        id="prompt"
+        class="form-control"
+      />
+      <button id="msgBtn">Send</button>
+    </div>
+  </form>
+</div>
+{% else %}
+<h1 class="h1 text-center m-5">
+  Please Login first to start chat with Nova AI
+</h1>
+{% endif %} {% endblock main %}
