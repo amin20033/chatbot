@@ -75,7 +75,7 @@ Each user has an isolated chat experience with persistent conversation history s
 <h2>🚀 Setup Instructions</h2>
 <ol>
   <li>Clone the repository</li>
-  <pre><code>git clone https://github.com/your-username/your-repo-name.git</code></pre>
+  <pre><code>git clone https://github.com/amin20033/chatbot.git</code></pre>
 
   <li>Create and activate virtual environment</li>
   <pre><code>python -m venv venv
