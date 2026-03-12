@@ -6,18 +6,37 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 from myapp.models import Chat
 from django.contrib.auth.decorators import login_required
-
+import pandas as pd
 API_URL = "http://localhost:11434/api/chat"
 
 MODEL_NAME = "phi3"
 # or: "mistral"
 
-def ask_ai(prompt):
+
+def ask_ai(prompt, user):
+
+    chats = Chat.objects.filter(user=user)
+    messages = []
+
+    for chat in chats:
+        messages.append({
+            "role": "user",
+            "content": chat.message
+        })
+
+        messages.append({
+            "role": "assistant",
+            "content": chat.response
+        })
+
+    messages.append({
+        "role": "user",
+        "content": prompt
+    })
+
     payload = {
         "model": MODEL_NAME,
-        "messages": [
-            {"role": "user", "content": prompt}
-        ],
+        "messages": messages,
         "stream": False
     }
 
@@ -36,8 +55,7 @@ def home(request):
     if request.method == "POST":
         # Get prompt (DO NOT CHANGE THIS PART as requested)
         prompt = request.POST.get("prompt")
-        print(prompt)
-        reply=ask_ai(prompt)
+        reply=ask_ai(prompt,request.user)
         chat=Chat(user=request.user,message=prompt,response=reply)
         chat.save()
         return JsonResponse({"reply":reply})

@@ -118,10 +118,29 @@ $(function () {
   $("#msgBtn").click(function (e) {
     e.preventDefault();
     let prompt = $("#prompt").val();
+    let file = $("#file")[0].files[0];
     let csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
     if (prompt==""){
       return;
     }
+    if (
+      file &&
+      file.type !==
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ) {
+      $("#chatInput")[0].reset();
+      $("#message").html("Only Excel files are allowed");
+
+      setTimeout(function () {
+        $("#message").html("");
+      }, 3000);
+
+      return;
+    }
+    let formData = new FormData();
+    formData.append("prompt", prompt);
+    formData.append("file", file);
+    formData.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
     $("#chatInput")[0].reset();
     $(".overall").append(`<div class="human">
       <div class="who">
@@ -142,16 +161,14 @@ $(function () {
     $.ajax({
       url: "/",
       method: "POST",
-      data: {
-        prompt: prompt,
-        csrfmiddlewaretoken: csrfmiddlewaretoken,
-      },
+      data: formData,
+      processData: false,
+      contentType: false,
       success: function (response) {
         $(".now").html(`
          
-        ${response.reply}`
-        );
-        $(".response").removeClass("now")
+        ${response.reply}`);
+        $(".response").removeClass("now");
       },
 
       error: function (xhr, status, error) {
