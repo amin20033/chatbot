@@ -118,29 +118,10 @@ $(function () {
   $("#msgBtn").click(function (e) {
     e.preventDefault();
     let prompt = $("#prompt").val();
-    let file = $("#file")[0].files[0];
     let csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
     if (prompt==""){
       return;
     }
-    if (
-      file &&
-      file.type !==
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    ) {
-      $("#chatInput")[0].reset();
-      $("#message").html("Only Excel files are allowed");
-
-      setTimeout(function () {
-        $("#message").html("");
-      }, 3000);
-
-      return;
-    }
-    let formData = new FormData();
-    formData.append("prompt", prompt);
-    formData.append("file", file);
-    formData.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
     $("#chatInput")[0].reset();
     $(".overall").append(`<div class="human">
       <div class="who">
@@ -161,21 +142,18 @@ $(function () {
     $.ajax({
       url: "/",
       method: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
+      data: {
+        prompt:prompt,
+        csrfmiddlewaretoken:csrfmiddlewaretoken
+      },
       success: function (response) {
         $(".now").html(`
          
         ${response.reply}`);
         $(".response").removeClass("now");
       },
-
       error: function (xhr, status, error) {
-        // ✅ FIX: Extract the actual error message
         let errorMessage = "Connection error occurred";
-
-        // Try to get JSON error message from backend
         if (xhr.responseJSON && xhr.responseJSON.message) {
           errorMessage = xhr.responseJSON.message;
         } else if (error) {

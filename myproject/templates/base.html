@@ -15,8 +15,6 @@
     <nav class="navbar navbar-expand-sm mynav">
       <div class="container-fluid">
         NOVA AI
-        <!-- Links -->
-         
         <ul class="navbar-nav">
           {% if user.is_authenticated %}
           Welcome {{user.username}}!!
@@ -32,7 +30,6 @@
           </li>
           {% endif %}
         </ul>
-
       </div>
     </nav>
     {% block main %}{% endblock main %}
