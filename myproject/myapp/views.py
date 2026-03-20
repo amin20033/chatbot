@@ -40,7 +40,15 @@ def ask_ai(prompt, user):
 def home(request):
     if request.method == "POST":
         prompt = request.POST.get("prompt")
-        reply=ask_ai(prompt,request.user)
+        try:
+            reply = ask_ai(prompt, request.user)
+        except Exception:
+            if "hello" in prompt.lower():
+                reply = "Hello! I'm Nova AI. Run me locally to unlock full AI capabilities."
+            elif "your name" in prompt.lower():
+                reply = "I'm Nova AI, powered by a local AI model."
+            else:
+                reply = "This chatbot uses a locally hosted AI model, which is not available in the deployed environment. Please run locally for full functionality."
         chat=Chat(user=request.user,message=prompt,response=reply)
         chat.save()
         return JsonResponse({"reply":reply})
